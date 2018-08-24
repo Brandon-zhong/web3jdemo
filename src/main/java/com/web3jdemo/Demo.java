@@ -135,6 +135,22 @@ public class Demo {
     //5743E843780254D22DC39E230C328FF75EEFBD9014EAB6B82A6DB1C5D9949F3A
     //5J3mBbAH58CpQ3Y5RNJpUKPE62SQ5tfcvU2JpbnkeyhfsYB1Jcn
     public static String getPrivatekey() {
+
+        try {
+            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+            System.out.println(ReflectionToStringBuilder.toString(ecKeyPair, ToStringStyle.MULTI_LINE_STYLE));
+
+            String address = Keys.getAddress(ecKeyPair.getPublicKey());
+            System.out.println("address --> " + address);
+
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
         byte[] randomList = getRandomList(32);
         String privateKey = bytesToHexString(randomList);
 

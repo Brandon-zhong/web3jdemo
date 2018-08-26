@@ -50,12 +50,39 @@ public class Demo {
 
     private static int i = 0;
 
+    /**
+     * privateKey --> 36046190667066833575095047186211601444752191542148689753758321596955059373678
+     * privateKey(Hex) --> 4fb16bc14fb52c6db1985af3cc8b1e389413d6469831b77d12875fdd72e1466e
+     * publicKey --> 3509524920480187970161804108497367890885638428619222570555171255987982644802242426705364869514305313510775837540481825686317403340338519812298505830053623
+     * address --> 172f1e7f526e60ea09420b14b919659f853102cd
+     * mnemonic --> exile mercy utility panda fan cycle shoe area video gold shy illness donkey twenty bounce alert resist trigger peace sausage strong idle boost shop
+     *
+     * @param args
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws TimeoutException
+     * @throws IOException
+     */
     public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException, IOException {
 
+        String fromAddress = "0x7997c99218B7f39bC4cE5404220919Cd3d5c6E90";
+        String fromPrivateKey = "9e01703375cfb07f7a417b3c40350f2879bdd1a994ff262d69f8caec8597698f";
+
+        String toAddress = "0x172f1e7f526e60ea09420b14b919659f853102cd";
+        String toPrivateKey = "4fb16bc14fb52c6db1985af3cc8b1e389413d6469831b77d12875fdd72e1466e";
+
+        getBalanceByAddr(fromAddress);
+        getBalanceByAddr(toAddress);
+
+//        transactions(toAddress, fromAddress, "1", toPrivateKey);
+//
+//        Thread.sleep(60000);
+//
+//        getBalanceByAddr("0x172f1e7f526e60ea09420b14b919659f853102cd");
 
 //        mnemonic();
 
-        getPrivatekey();
+//        getPrivatekey();
 //        web3j.shutdown();
     }
 
@@ -136,25 +163,29 @@ public class Demo {
     //5J3mBbAH58CpQ3Y5RNJpUKPE62SQ5tfcvU2JpbnkeyhfsYB1Jcn
     public static String getPrivatekey() {
 
-        try {
-            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-            System.out.println(ReflectionToStringBuilder.toString(ecKeyPair, ToStringStyle.MULTI_LINE_STYLE));
-
-            String address = Keys.getAddress(ecKeyPair.getPublicKey());
-            System.out.println("address --> " + address);
-
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
+//            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+//            System.out.println("privateKey --> " + ecKeyPair.getPrivateKey());
+//            System.out.println("publicKey --> " + ecKeyPair.getPublicKey());
+//
+//            String address = Keys.getAddress(ecKeyPair.getPublicKey());
+//            System.out.println("address --> " + address);
+//            byte[] bytes = ecKeyPair.getPrivateKey().toByteArray();
+//            String mnemonic = getMnemonic(bytes);
+//            System.out.println("mnemonic --> " + mnemonic + "\n");
 
         byte[] randomList = getRandomList(32);
-        String privateKey = bytesToHexString(randomList);
+        BigInteger bigInteger = Sign.publicKeyFromPrivate(new BigInteger(randomList));
+        System.out.println("privateKey --> " + new BigInteger(randomList));
+        System.out.println("privateKey(Hex) --> " + bytesToHexString(randomList).toLowerCase());
+        System.out.println("publicKey --> " + bigInteger);
 
-        return privateKey;
+        String address = Keys.getAddress(bigInteger);
+        System.out.println("address --> " + address);
+        String mnemonic = getMnemonic(randomList);
+        System.out.println("mnemonic --> " + mnemonic);
+
+
+        return null;
     }
 
     //xprv9s21ZrQH143K3QtGFJpkoSb6PDSzrutYmqe2ArQmAYNh5adzTDEE2RgaF2DyyLZCWhxgxeKsyiAjw7iAGS9fxG6kVHwdZVMcAWYKTQ7v892

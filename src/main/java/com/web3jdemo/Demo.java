@@ -74,11 +74,12 @@ public class Demo {
         getBalanceByAddr(fromAddress);
         getBalanceByAddr(toAddress);
 
-//        transactions(toAddress, fromAddress, "1", toPrivateKey);
-//
-//        Thread.sleep(60000);
-//
-//        getBalanceByAddr("0x172f1e7f526e60ea09420b14b919659f853102cd");
+        transactions(fromAddress, toAddress, "6", fromPrivateKey);
+
+        Thread.sleep(200000);
+
+        getBalanceByAddr(fromAddress);
+        getBalanceByAddr(toAddress);
 
 //        mnemonic();
 

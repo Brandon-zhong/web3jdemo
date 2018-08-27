@@ -1,0 +1,30 @@
+17:15:56.951 INFO [o.b.c.MnemonicCode]  PBKDF2 took 440.2 ms
+17:15:57.164 WARN [o.b.c.Context]  Implicitly creating context. This is a migration step and this message will eventually go away.
+17:15:57.164 INFO [o.b.c.Context]  Creating bitcoinj 0.14.7 context.
+17:15:57.178 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/0 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:15:57.220 INFO [o.b.w.DeterministicKeyChain]  Took 41.67 ms
+17:15:57.220 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/1 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:15:57.258 INFO [o.b.w.DeterministicKeyChain]  Took 38.29 ms
+17:16:44.821 INFO [o.b.c.MnemonicCode]  PBKDF2 took 437.2 ms
+17:16:44.901 WARN [o.b.c.Context]  Implicitly creating context. This is a migration step and this message will eventually go away.
+17:16:44.901 INFO [o.b.c.Context]  Creating bitcoinj 0.14.7 context.
+17:16:44.907 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/0 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:16:44.958 INFO [o.b.w.DeterministicKeyChain]  Took 50.42 ms
+17:16:44.958 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/1 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:16:44.991 INFO [o.b.w.DeterministicKeyChain]  Took 32.63 ms
+17:28:39.847 INFO [o.b.c.MnemonicCode]  PBKDF2 took 418.1 ms
+17:28:39.870 INFO [o.b.c.MnemonicCode]  PBKDF2 took 19.49 ms
+17:28:39.927 WARN [o.b.c.Context]  Implicitly creating context. This is a migration step and this message will eventually go away.
+17:28:39.928 INFO [o.b.c.Context]  Creating bitcoinj 0.14.7 context.
+17:28:39.934 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/0 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:28:39.981 INFO [o.b.w.DeterministicKeyChain]  Took 47.48 ms
+17:28:39.982 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/1 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:28:40.013 INFO [o.b.w.DeterministicKeyChain]  Took 32.07 ms
+17:29:21.904 INFO [o.b.c.MnemonicCode]  PBKDF2 took 453.8 ms
+17:29:21.930 INFO [o.b.c.MnemonicCode]  PBKDF2 took 21.44 ms
+17:29:21.987 WARN [o.b.c.Context]  Implicitly creating context. This is a migration step and this message will eventually go away.
+17:29:21.988 INFO [o.b.c.Context]  Creating bitcoinj 0.14.7 context.
+17:29:21.996 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/0 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:29:22.045 INFO [o.b.w.DeterministicKeyChain]  Took 48.81 ms
+17:29:22.046 INFO [o.b.w.DeterministicKeyChain]  133 keys needed for M/0H/1 = 0 issued + 100 lookahead size + 33 lookahead threshold - 0 num children
+17:29:22.075 INFO [o.b.w.DeterministicKeyChain]  Took 29.11 ms

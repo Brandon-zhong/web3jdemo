@@ -30,6 +30,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static org.web3j.crypto.Hash.sha256;
+
 /**
  * @author brandon
  * Created by brandon on 2018/8/22.
@@ -48,14 +50,51 @@ public class Demo {
 
     private static final Admin admin = Admin.build(new HttpService("https://ropsten.infura.io/v3/a3f0e7feded142f8854a3c2a6e05bf35"));
 
-    private static int i = 0;
+    private static final int N_LIGHT = 1 << 12;
+    private static final int P_LIGHT = 6;
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException, IOException {
+    private static final int N_STANDARD = 1 << 18;
+    private static final int P_STANDARD = 1;
 
+    /**
+     * privateKey --> 36046190667066833575095047186211601444752191542148689753758321596955059373678
+     * privateKey(Hex) --> 4fb16bc14fb52c6db1985af3cc8b1e389413d6469831b77d12875fdd72e1466e
+     * publicKey --> 3509524920480187970161804108497367890885638428619222570555171255987982644802242426705364869514305313510775837540481825686317403340338519812298505830053623
+     * address --> 172f1e7f526e60ea09420b14b919659f853102cd
+     * mnemonic --> exile mercy utility panda fan cycle shoe area video gold shy illness donkey twenty bounce alert resist trigger peace sausage strong idle boost shop
+     *
+     * @param args
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws TimeoutException
+     * @throws IOException
+     */
+    public static void main(String[] args) throws Exception {
+
+        String fromAddress = "0x7997c99218B7f39bC4cE5404220919Cd3d5c6E90";
+        String fromPrivateKey = "9e01703375cfb07f7a417b3c40350f2879bdd1a994ff262d69f8caec8597698f";
+
+        String toAddress = "0x172f1e7f526e60ea09420b14b919659f853102cd";
+        String toPrivateKey = "4fb16bc14fb52c6db1985af3cc8b1e389413d6469831b77d12875fdd72e1466e";
+
+//        getBalanceByAddr(fromAddress);
+//        getBalanceByAddr(toAddress);
+//
+//        transactions(fromAddress, toAddress, "6", fromPrivateKey);
+//
+//        Thread.sleep(200000);
+//
+//        getBalanceByAddr(fromAddress);
+//        getBalanceByAddr(toAddress);
 
 //        mnemonic();
 
-        getPrivatekey();
+
+        getKeyStore();
+
+        System.out.println(N_LIGHT + "     " + N_STANDARD);
+
+//        getPrivatekey();
 //        web3j.shutdown();
     }
 
@@ -136,25 +175,33 @@ public class Demo {
     //5J3mBbAH58CpQ3Y5RNJpUKPE62SQ5tfcvU2JpbnkeyhfsYB1Jcn
     public static String getPrivatekey() {
 
-        try {
-            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-            System.out.println(ReflectionToStringBuilder.toString(ecKeyPair, ToStringStyle.MULTI_LINE_STYLE));
-
-            String address = Keys.getAddress(ecKeyPair.getPublicKey());
-            System.out.println("address --> " + address);
-
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
+//            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+//            System.out.println("privateKey --> " + ecKeyPair.getPrivateKey());
+//            System.out.println("publicKey --> " + ecKeyPair.getPublicKey());
+//
+//            String address = Keys.getAddress(ecKeyPair.getPublicKey());
+//            System.out.println("address --> " + address);
+//            byte[] bytes = ecKeyPair.getPrivateKey().toByteArray();
+//            String mnemonic = getMnemonic(bytes);
+//            System.out.println("mnemonic --> " + mnemonic + "\n");
 
         byte[] randomList = getRandomList(32);
-        String privateKey = bytesToHexString(randomList);
+        BigInteger bigInteger = Sign.publicKeyFromPrivate(Numeric.toBigInt(randomList));
+        System.out.println("privateKey --> " + Numeric.toBigInt(randomList));
+        System.out.println("privateKey(Hex) --> " + Numeric.toHexString(randomList));
+        System.out.println("publicKey --> " + bigInteger);
 
-        return privateKey;
+        String address = Keys.getAddress(bigInteger);
+        System.out.println("address --> " + address);
+        String mnemonic = getMnemonic(randomList);
+        System.out.println("mnemonic --> " + mnemonic);
+
+
+        ECKeyPair ecKeyPair = ECKeyPair.create(randomList);
+        System.out.println(ReflectionToStringBuilder.toString(ecKeyPair, ToStringStyle.MULTI_LINE_STYLE));
+
+
+        return null;
     }
 
     //xprv9s21ZrQH143K3QtGFJpkoSb6PDSzrutYmqe2ArQmAYNh5adzTDEE2RgaF2DyyLZCWhxgxeKsyiAjw7iAGS9fxG6kVHwdZVMcAWYKTQ7v892
@@ -168,16 +215,33 @@ public class Demo {
         System.out.println("MnemonicUtils --> " + mnemonic);
 
         byte[] seed = getSeedByMnemonicAndPassPhrase(mnemonic, "zhong6465");
-        System.out.println("seed --> " + bytesToHexString(seed) + "    length --> " + seed.length);
+        System.out.println("seed --> " + Numeric.toHexString(seed) + "    length --> " + seed.length);
 
         byte[] sha512 = sha512(seed);
-        System.out.println("sha256 --> " + bytesToHexString(sha512) + "    length --> " + sha512.length);
+        System.out.println("sha256 --> " + Numeric.toHexString(sha512) + "    length --> " + sha512.length);
 
         byte[] masterPrivateKey = Arrays.copyOfRange(sha512, 0, 256 / 8);
-        System.out.println("masterPrivateKey --> " + bytesToHexString(masterPrivateKey));
+        System.out.println("masterPrivateKey --> " + Numeric.toHexString(masterPrivateKey));
 
         byte[] masterChainCode = Arrays.copyOfRange(sha512, 256 / 8, sha512.length);
-        System.out.println("masterChainCode -->" + bytesToHexString(masterChainCode));
+        System.out.println("masterChainCode -->" + Numeric.toHexString(masterChainCode));
+    }
+
+
+    public static void getKeyStore() throws CipherException {
+        byte[] randomList = getRandomList(32);
+        String mnemonic = getMnemonic(randomList);
+        System.out.println("mnemonic --> " + mnemonic);
+        byte[] seed = getSeedByMnemonicAndPassPhrase(mnemonic, "zhong6465");
+        ECKeyPair ecKeyPair = ECKeyPair.create(sha256(seed));
+        System.out.println("privateKey(Hex) --> " + ecKeyPair.getPrivateKey().toString(16));
+        System.out.println("publicKey(Hex) --> " + ecKeyPair.getPublicKey().toString(16));
+
+        String address = Keys.getAddress(ecKeyPair.getPublicKey());
+        System.out.println("address --> " + address);
+
+        WalletFile walletFile = Wallet.create("", ecKeyPair, N_STANDARD, P_STANDARD);
+        System.out.println(ReflectionToStringBuilder.toString(walletFile, ToStringStyle.MULTI_LINE_STYLE));
     }
 
     /**
@@ -189,7 +253,9 @@ public class Demo {
         SecureRandom secureRandom = new SecureRandom();
         //获取安全性的随机序列(熵)
         byte[] bytes = secureRandom.generateSeed(numBytes);
-        return bytes;
+        byte[] initialEntropy = new byte[numBytes];
+        secureRandom.nextBytes(initialEntropy);
+        return initialEntropy;
     }
 
     /**
